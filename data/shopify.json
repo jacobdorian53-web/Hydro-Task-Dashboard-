@@ -1,27 +1,28 @@
 {
   "today": {
-    "orders": 0,
-    "revenue": 0,
-    "aov": 0
+    "orders": 1,
+    "revenue": 191.99,
+    "aov": 191.99
   },
   "yesterday": {
-    "orders": 6,
-    "revenue": 816.70,
-    "aov": 136.12
+    "orders": 7,
+    "revenue": 997.22,
+    "aov": 142.46
   },
   "week": {
-    "orders": 11,
-    "revenue": 1388,
-    "aov": 126
+    "orders": 35,
+    "revenue": 5240,
+    "aov": 149.71
   },
   "month": {
-    "orders": 45,
-    "revenue": 6800,
-    "aov": 151
+    "orders": 202,
+    "revenue": 32937,
+    "aov": 163.05
   },
   "topProducts": [
-    {"name": "Hydrogen Water Bottle", "sold": 38, "revenue": 5700},
-    {"name": "Replacement Filters", "sold": 12, "revenue": 360}
+    {"name": "Hydrogen Water Bottle Pro", "sold": 156, "revenue": 24960},
+    {"name": "Hydrogen Water Bottle", "sold": 38, "revenue": 5320},
+    {"name": "Replacement Filters", "sold": 22, "revenue": 660}
   ],
-  "lastUpdated": "2026-02-23T16:25:00"
+  "lastUpdated": "2026-02-23T16:31:00"
 }
