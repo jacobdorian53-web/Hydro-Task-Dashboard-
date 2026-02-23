@@ -1,0 +1,34 @@
+[
+  {
+    "week": "Feb 17-23",
+    "spend": 2138,
+    "revenue": 1388,
+    "roas": 0.65,
+    "orders": 11,
+    "aov": 126
+  },
+  {
+    "week": "Feb 10-16",
+    "spend": 1850,
+    "revenue": 2100,
+    "roas": 1.14,
+    "orders": 14,
+    "aov": 150
+  },
+  {
+    "week": "Feb 3-9",
+    "spend": 2200,
+    "revenue": 3100,
+    "roas": 1.41,
+    "orders": 19,
+    "aov": 163
+  },
+  {
+    "week": "Jan 27-Feb 2",
+    "spend": 1950,
+    "revenue": 3200,
+    "roas": 1.64,
+    "orders": 21,
+    "aov": 152
+  }
+]

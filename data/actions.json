@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Audit discount code usage",
+    "description": "Check if customers are stacking codes. AOV gap of $37 is eating margin.",
+    "priority": "high",
+    "category": "offer",
+    "date": "Feb 23",
+    "completed": false
+  },
+  {
+    "title": "Review ASC creative breakdown",
+    "description": "Only 1 campaign running - check which ads are dragging performance",
+    "priority": "high",
+    "category": "creative",
+    "date": "Feb 23",
+    "completed": false
+  },
+  {
+    "title": "Analyze abandoned checkouts",
+    "description": "3 checkouts today with 0 conversions - what's causing drop-off?",
+    "priority": "high",
+    "category": "funnel",
+    "date": "Feb 23",
+    "completed": false
+  },
+  {
+    "title": "Check checkout flow for friction",
+    "description": "Walk through checkout process, look for issues causing abandonment",
+    "priority": "medium",
+    "category": "funnel",
+    "date": "Feb 23",
+    "completed": false
+  },
+  {
+    "title": "Evaluate budget - pause or reduce?",
+    "description": "If ROAS stays sub-1.5, consider pausing until diagnosis complete",
+    "priority": "medium",
+    "category": "analytics",
+    "date": "Feb 23",
+    "completed": false
+  },
+  {
+    "title": "Test new creative angles",
+    "description": "Current creatives may be fatigued - brainstorm fresh hooks",
+    "priority": "medium",
+    "category": "creative",
+    "date": "Feb 24",
+    "completed": false
+  }
+]

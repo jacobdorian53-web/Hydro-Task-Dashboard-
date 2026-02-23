@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hydro Vitality War Room 💧</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: #1a1a25;
+      --bg-hover: #22222f;
+      --text-primary: #ffffff;
+      --text-secondary: #8888aa;
+      --accent: #00d4ff;
+      --accent-glow: rgba(0, 212, 255, 0.3);
+      --success: #00ff88;
+      --warning: #ffaa00;
+      --error: #ff4466;
+      --info: #6688ff;
+      --border: #2a2a3a;
+      --profit: #00ff88;
+      --loss: #ff4466;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, #0d1520 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .logo-icon { font-size: 1.75rem; }
+    .logo-text { color: var(--accent); }
+    
+    .header-status {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--error);
+      animation: pulse 2s infinite;
+    }
+    
+    .status-dot.healthy { background: var(--success); }
+    .status-dot.warning { background: var(--warning); }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* Main Layout */
+    .main-content {
+      padding: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    
+    /* KPI Cards Row */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .kpi-card.highlight {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    
+    .kpi-card.danger {
+      border-color: var(--error);
+      box-shadow: 0 0 20px rgba(255, 68, 102, 0.2);
+    }
+    
+    .kpi-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    
+    .kpi-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .kpi-change {
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .kpi-change.positive { color: var(--success); }
+    .kpi-change.negative { color: var(--error); }
+    
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    /* Two Column Layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    @media (max-width: 1024px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+    
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    
+    /* Weekly Tracker Table */
+    .tracker-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .tracker-table th,
+    .tracker-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .tracker-table th {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+    
+    .tracker-table td {
+      font-size: 0.9rem;
+    }
+    
+    .tracker-table tr:hover {
+      background: var(--bg-hover);
+    }
+    
+    .roas-cell {
+      font-weight: 600;
+    }
+    
+    .roas-cell.good { color: var(--success); }
+    .roas-cell.bad { color: var(--error); }
+    .roas-cell.neutral { color: var(--warning); }
+    
+    /* Funnel */
+    .funnel-step {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .funnel-step:last-child { border-bottom: none; }
+    
+    .funnel-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--bg-hover);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    
+    .funnel-info { flex: 1; }
+    
+    .funnel-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    
+    .funnel-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .funnel-rate {
+      font-size: 0.9rem;
+      color: var(--accent);
+    }
+    
+    /* Action Items */
+    .action-list {
+      list-style: none;
+    }
+    
+    .action-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--bg-hover);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .action-item:hover {
+      background: #2a2a3a;
+    }
+    
+    .action-item.completed {
+      opacity: 0.5;
+    }
+    
+    .action-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    
+    .action-item.completed .action-checkbox {
+      background: var(--success);
+      border-color: var(--success);
+    }
+    
+    .action-content { flex: 1; }
+    
+    .action-title {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+    
+    .action-item.completed .action-title {
+      text-decoration: line-through;
+    }
+    
+    .action-meta {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    
+    .action-priority {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    
+    .action-priority.high {
+      background: rgba(255, 68, 102, 0.2);
+      color: var(--error);
+    }
+    
+    .action-priority.medium {
+      background: rgba(255, 170, 0, 0.2);
+      color: var(--warning);
+    }
+    
+    .action-priority.low {
+      background: rgba(0, 212, 255, 0.2);
+      color: var(--accent);
+    }
+    
+    /* Add Action Button */
+    .add-btn {
+      background: var(--accent);
+      color: var(--bg-primary);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .add-btn:hover {
+      filter: brightness(1.1);
+    }
+    
+    /* Goals Section */
+    .goal-card {
+      background: var(--bg-hover);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .goal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .goal-title {
+      font-weight: 500;
+    }
+    
+    .goal-target {
+      font-size: 0.85rem;
+      color: var(--accent);
+    }
+    
+    .goal-progress-bar {
+      height: 8px;
+      background: var(--bg-card);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .goal-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-overlay.active {
+      display: flex;
+    }
+    
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 500px;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+    }
+    
+    .form-textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+    
+    .btn-secondary {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-content { padding: 1rem; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .header { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">💧</span>
+      <span class="logo-text">Hydro Vitality</span>
+      <span style="font-weight: 400; color: var(--text-secondary);">War Room</span>
+    </div>
+    <div class="header-status">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span id="campaign-status">Campaign Critical</span>
+      </div>
+      <div class="status-badge" style="color: var(--text-secondary);">
+        <span id="last-updated">Updated: --</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- KPI Cards -->
+    <div class="kpi-grid" id="kpi-grid">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="two-col">
+      <!-- Weekly Performance -->
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">📊 Weekly Performance</h2>
+        </div>
+        <table class="tracker-table">
+          <thead>
+            <tr>
+              <th>Week</th>
+              <th>Spend</th>
+              <th>Revenue</th>
+              <th>ROAS</th>
+              <th>Orders</th>
+              <th>AOV</th>
+            </tr>
+          </thead>
+          <tbody id="weekly-table">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Funnel Analysis -->
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">🔄 Funnel (Today)</h2>
+        </div>
+        <div id="funnel-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Items & Goals -->
+    <div class="two-col">
+      <!-- Action Items -->
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">⚡ Action Items</h2>
+          <button class="add-btn" onclick="openModal()">+ Add Task</button>
+        </div>
+        <ul class="action-list" id="action-list">
+          <!-- Populated by JS -->
+        </ul>
+      </div>
+
+      <!-- Turnaround Goals -->
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">🎯 Turnaround Goals</h2>
+        </div>
+        <div id="goals-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Task Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Action Item</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="action-form">
+        <div class="form-group">
+          <label class="form-label">Task Title</label>
+          <input type="text" class="form-input" id="task-title" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="task-desc"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-select" id="task-priority">
+            <option value="high">🔴 High</option>
+            <option value="medium" selected>🟡 Medium</option>
+            <option value="low">🔵 Low</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="task-category">
+            <option value="creative">Creative</option>
+            <option value="targeting">Targeting</option>
+            <option value="funnel">Funnel/CRO</option>
+            <option value="offer">Offer/Pricing</option>
+            <option value="analytics">Analytics</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="add-btn">Add Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Data paths
+    const DATA_PATH = './data/';
+    
+    // State
+    let metrics = {};
+    let weeklyData = [];
+    let funnelData = {};
+    let actions = [];
+    let goals = [];
+
+    // Load all data
+    async function loadData() {
+      try {
+        const [metricsRes, weeklyRes, funnelRes, actionsRes, goalsRes] = await Promise.all([
+          fetch(DATA_PATH + 'metrics.json'),
+          fetch(DATA_PATH + 'weekly.json'),
+          fetch(DATA_PATH + 'funnel.json'),
+          fetch(DATA_PATH + 'actions.json'),
+          fetch(DATA_PATH + 'goals.json')
+        ]);
+        
+        metrics = await metricsRes.json();
+        weeklyData = await weeklyRes.json();
+        funnelData = await funnelRes.json();
+        actions = await actionsRes.json();
+        goals = await goalsRes.json();
+        
+        renderAll();
+      } catch (err) {
+        console.error('Error loading data:', err);
+      }
+    }
+
+    // Render all sections
+    function renderAll() {
+      renderKPIs();
+      renderWeeklyTable();
+      renderFunnel();
+      renderActions();
+      renderGoals();
+      updateStatus();
+    }
+
+    // Render KPI cards
+    function renderKPIs() {
+      const grid = document.getElementById('kpi-grid');
+      const kpis = [
+        { label: 'Today Spend', value: '$' + metrics.todaySpend?.toFixed(0), change: null, highlight: false },
+        { label: 'Today Revenue', value: '$' + metrics.todayRevenue?.toFixed(0), change: null, highlight: false },
+        { label: 'Today ROAS', value: metrics.todayRoas?.toFixed(2), change: null, danger: metrics.todayRoas < 1.53 },
+        { label: 'Purchases', value: metrics.todayPurchases, change: null, highlight: false },
+        { label: 'AOV', value: '$' + metrics.aov?.toFixed(0), change: metrics.aovChange, highlight: false },
+        { label: '7-Day ROAS', value: metrics.weekRoas?.toFixed(2), change: null, danger: metrics.weekRoas < 1.53 },
+      ];
+      
+      grid.innerHTML = kpis.map(kpi => `
+        <div class="kpi-card ${kpi.highlight ? 'highlight' : ''} ${kpi.danger ? 'danger' : ''}">
+          <div class="kpi-label">${kpi.label}</div>
+          <div class="kpi-value">${kpi.value || '--'}</div>
+          ${kpi.change !== null ? `
+            <div class="kpi-change ${kpi.change >= 0 ? 'positive' : 'negative'}">
+              ${kpi.change >= 0 ? '↑' : '↓'} ${Math.abs(kpi.change)}%
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    // Render weekly table
+    function renderWeeklyTable() {
+      const tbody = document.getElementById('weekly-table');
+      tbody.innerHTML = weeklyData.map(week => {
+        const roasClass = week.roas >= 1.53 ? 'good' : week.roas >= 1.0 ? 'neutral' : 'bad';
+        return `
+          <tr>
+            <td>${week.week}</td>
+            <td>$${week.spend.toLocaleString()}</td>
+            <td>$${week.revenue.toLocaleString()}</td>
+            <td class="roas-cell ${roasClass}">${week.roas.toFixed(2)}</td>
+            <td>${week.orders}</td>
+            <td>$${week.aov.toFixed(0)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Render funnel
+    function renderFunnel() {
+      const container = document.getElementById('funnel-container');
+      const steps = [
+        { icon: '👁️', label: 'Impressions', value: funnelData.impressions, rate: null },
+        { icon: '👆', label: 'Link Clicks', value: funnelData.clicks, rate: ((funnelData.clicks / funnelData.impressions) * 100).toFixed(1) + '% CTR' },
+        { icon: '📄', label: 'Landing Page Views', value: funnelData.lpv, rate: ((funnelData.lpv / funnelData.clicks) * 100).toFixed(0) + '% load rate' },
+        { icon: '🛒', label: 'Add to Carts', value: funnelData.atc, rate: ((funnelData.atc / funnelData.lpv) * 100).toFixed(1) + '% ATC rate' },
+        { icon: '💳', label: 'Checkouts', value: funnelData.checkout, rate: ((funnelData.checkout / funnelData.atc) * 100).toFixed(0) + '% checkout rate' },
+        { icon: '✅', label: 'Purchases', value: funnelData.purchases, rate: ((funnelData.purchases / funnelData.checkout) * 100).toFixed(0) + '% purchase rate' },
+      ];
+      
+      container.innerHTML = steps.map(step => `
+        <div class="funnel-step">
+          <div class="funnel-icon">${step.icon}</div>
+          <div class="funnel-info">
+            <div class="funnel-label">${step.label}</div>
+            <div class="funnel-value">${step.value?.toLocaleString() || 0}</div>
+          </div>
+          ${step.rate ? `<div class="funnel-rate">${step.rate}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    // Render actions
+    function renderActions() {
+      const list = document.getElementById('action-list');
+      const sortedActions = [...actions].sort((a, b) => {
+        if (a.completed !== b.completed) return a.completed ? 1 : -1;
+        const priorityOrder = { high: 0, medium: 1, low: 2 };
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      });
+      
+      list.innerHTML = sortedActions.map((action, idx) => `
+        <li class="action-item ${action.completed ? 'completed' : ''}" onclick="toggleAction(${idx})">
+          <div class="action-checkbox">${action.completed ? '✓' : ''}</div>
+          <div class="action-content">
+            <div class="action-title">${action.title}</div>
+            <div class="action-meta">${action.category} · ${action.date || 'No date'}</div>
+          </div>
+          <span class="action-priority ${action.priority}">${action.priority}</span>
+        </li>
+      `).join('');
+    }
+
+    // Render goals
+    function renderGoals() {
+      const container = document.getElementById('goals-container');
+      container.innerHTML = goals.map(goal => {
+        const progress = Math.min((goal.current / goal.target) * 100, 100);
+        return `
+          <div class="goal-card">
+            <div class="goal-header">
+              <span class="goal-title">${goal.title}</span>
+              <span class="goal-target">${goal.current} / ${goal.target}</span>
+            </div>
+            <div class="goal-progress-bar">
+              <div class="goal-progress-fill" style="width: ${progress}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Update status
+    function updateStatus() {
+      const statusDot = document.querySelector('.status-dot');
+      const statusText = document.getElementById('campaign-status');
+      const lastUpdated = document.getElementById('last-updated');
+      
+      if (metrics.weekRoas >= 1.53) {
+        statusDot.className = 'status-dot healthy';
+        statusText.textContent = 'Profitable';
+      } else if (metrics.weekRoas >= 1.0) {
+        statusDot.className = 'status-dot warning';
+        statusText.textContent = 'Breaking Even';
+      } else {
+        statusDot.className = 'status-dot';
+        statusText.textContent = 'Campaign Critical';
+      }
+      
+      lastUpdated.textContent = 'Updated: ' + new Date().toLocaleTimeString();
+    }
+
+    // Toggle action complete
+    function toggleAction(idx) {
+      actions[idx].completed = !actions[idx].completed;
+      renderActions();
+      saveActions();
+    }
+
+    // Save actions (would need backend)
+    async function saveActions() {
+      // For now, log to console - Billy will update the JSON
+      console.log('Actions updated:', JSON.stringify(actions, null, 2));
+    }
+
+    // Modal functions
+    function openModal() {
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+      document.getElementById('action-form').reset();
+    }
+
+    // Form submit
+    document.getElementById('action-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const newAction = {
+        title: document.getElementById('task-title').value,
+        description: document.getElementById('task-desc').value,
+        priority: document.getElementById('task-priority').value,
+        category: document.getElementById('task-category').value,
+        date: new Date().toLocaleDateString(),
+        completed: false
+      };
+      actions.unshift(newAction);
+      renderActions();
+      saveActions();
+      closeModal();
+    });
+
+    // Init
+    loadData();
+  </script>
+</body>
+</html>
