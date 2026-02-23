@@ -1,0 +1,27 @@
+{
+  "today": {
+    "orders": 0,
+    "revenue": 0,
+    "aov": 0
+  },
+  "yesterday": {
+    "orders": 6,
+    "revenue": 816.70,
+    "aov": 136.12
+  },
+  "week": {
+    "orders": 11,
+    "revenue": 1388,
+    "aov": 126
+  },
+  "month": {
+    "orders": 45,
+    "revenue": 6800,
+    "aov": 151
+  },
+  "topProducts": [
+    {"name": "Hydrogen Water Bottle", "sold": 38, "revenue": 5700},
+    {"name": "Replacement Filters", "sold": 12, "revenue": 360}
+  ],
+  "lastUpdated": "2026-02-23T16:25:00"
+}

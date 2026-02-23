@@ -21,8 +21,8 @@
       --error: #ff4466;
       --info: #6688ff;
       --border: #2a2a3a;
-      --profit: #00ff88;
-      --loss: #ff4466;
+      --shopify: #96bf48;
+      --meta: #0081fb;
     }
     
     body {
@@ -32,7 +32,6 @@
       min-height: 100vh;
     }
     
-    /* Header */
     .header {
       background: linear-gradient(135deg, var(--bg-secondary) 0%, #0d1520 100%);
       border-bottom: 1px solid var(--border);
@@ -88,17 +87,55 @@
       50% { opacity: 0.5; }
     }
     
-    /* Main Layout */
     .main-content {
       padding: 2rem;
       max-width: 1600px;
       margin: 0 auto;
     }
     
-    /* KPI Cards Row */
+    /* Source Tabs */
+    .source-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .source-tab {
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .source-tab:hover { background: var(--bg-hover); }
+    
+    .source-tab.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0, 212, 255, 0.1);
+    }
+    
+    .source-tab.shopify.active {
+      border-color: var(--shopify);
+      color: var(--shopify);
+      background: rgba(150, 191, 72, 0.1);
+    }
+    
+    .source-tab.meta.active {
+      border-color: var(--meta);
+      color: var(--meta);
+      background: rgba(0, 129, 251, 0.1);
+    }
+    
+    /* KPI Grid */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 1rem;
       margin-bottom: 2rem;
     }
@@ -108,45 +145,58 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1.25rem;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .kpi-card.highlight {
-      border-color: var(--accent);
-      box-shadow: 0 0 20px var(--accent-glow);
     }
     
     .kpi-card.danger {
       border-color: var(--error);
-      box-shadow: 0 0 20px rgba(255, 68, 102, 0.2);
+      box-shadow: 0 0 20px rgba(255, 68, 102, 0.15);
+    }
+    
+    .kpi-card.success {
+      border-color: var(--success);
     }
     
     .kpi-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    
+    .kpi-label .source-icon {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.35rem;
+      border-radius: 3px;
+    }
+    
+    .kpi-label .source-icon.shopify {
+      background: rgba(150, 191, 72, 0.2);
+      color: var(--shopify);
+    }
+    
+    .kpi-label .source-icon.meta {
+      background: rgba(0, 129, 251, 0.2);
+      color: var(--meta);
     }
     
     .kpi-value {
-      font-size: 1.75rem;
+      font-size: 1.6rem;
       font-weight: 700;
-      margin-bottom: 0.25rem;
     }
     
     .kpi-change {
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
     }
     
     .kpi-change.positive { color: var(--success); }
     .kpi-change.negative { color: var(--error); }
     
-    /* Section Headers */
+    /* Section */
     .section-header {
       display: flex;
       justify-content: space-between;
@@ -157,14 +207,13 @@
     }
     
     .section-title {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
     
-    /* Two Column Layout */
     .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -172,11 +221,21 @@
       margin-bottom: 2rem;
     }
     
-    @media (max-width: 1024px) {
-      .two-col { grid-template-columns: 1fr; }
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
     
-    /* Cards */
+    @media (max-width: 1200px) {
+      .three-col { grid-template-columns: 1fr 1fr; }
+    }
+    
+    @media (max-width: 900px) {
+      .two-col, .three-col { grid-template-columns: 1fr; }
+    }
+    
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -184,116 +243,128 @@
       padding: 1.5rem;
     }
     
-    /* Weekly Tracker Table */
+    /* Tables */
     .tracker-table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 0.85rem;
     }
     
     .tracker-table th,
     .tracker-table td {
-      padding: 0.75rem;
+      padding: 0.65rem 0.5rem;
       text-align: left;
       border-bottom: 1px solid var(--border);
     }
     
     .tracker-table th {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
       color: var(--text-secondary);
       font-weight: 600;
     }
     
-    .tracker-table td {
-      font-size: 0.9rem;
-    }
+    .tracker-table tr:hover { background: var(--bg-hover); }
     
-    .tracker-table tr:hover {
-      background: var(--bg-hover);
-    }
-    
-    .roas-cell {
-      font-weight: 600;
-    }
-    
+    .roas-cell { font-weight: 600; }
     .roas-cell.good { color: var(--success); }
     .roas-cell.bad { color: var(--error); }
     .roas-cell.neutral { color: var(--warning); }
+    
+    /* Comparison Row */
+    .compare-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .compare-row:last-child { border-bottom: none; }
+    
+    .compare-label {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    
+    .compare-values {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .compare-value {
+      text-align: right;
+    }
+    
+    .compare-value .source {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+    
+    .compare-value .num {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    
+    .compare-value.shopify .num { color: var(--shopify); }
+    .compare-value.meta .num { color: var(--meta); }
     
     /* Funnel */
     .funnel-step {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      padding: 0.75rem 0;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
       border-bottom: 1px solid var(--border);
     }
     
     .funnel-step:last-child { border-bottom: none; }
     
     .funnel-icon {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       background: var(--bg-hover);
-      border-radius: 8px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
     
     .funnel-info { flex: 1; }
+    .funnel-label { font-size: 0.8rem; color: var(--text-secondary); }
+    .funnel-value { font-size: 1rem; font-weight: 600; }
+    .funnel-rate { font-size: 0.8rem; color: var(--accent); }
     
-    .funnel-label {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-    }
-    
-    .funnel-value {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-    
-    .funnel-rate {
-      font-size: 0.9rem;
-      color: var(--accent);
-    }
-    
-    /* Action Items */
-    .action-list {
-      list-style: none;
-    }
+    /* Actions */
+    .action-list { list-style: none; }
     
     .action-item {
       display: flex;
       align-items: flex-start;
       gap: 0.75rem;
-      padding: 1rem;
+      padding: 0.85rem;
       background: var(--bg-hover);
       border-radius: 8px;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.6rem;
       cursor: pointer;
       transition: all 0.2s;
     }
     
-    .action-item:hover {
-      background: #2a2a3a;
-    }
-    
-    .action-item.completed {
-      opacity: 0.5;
-    }
+    .action-item:hover { background: #2a2a3a; }
+    .action-item.completed { opacity: 0.5; }
     
     .action-checkbox {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       border: 2px solid var(--border);
       border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      margin-top: 2px;
+      font-size: 0.7rem;
     }
     
     .action-item.completed .action-checkbox {
@@ -302,116 +373,93 @@
     }
     
     .action-content { flex: 1; }
-    
-    .action-title {
-      font-weight: 500;
-      margin-bottom: 0.25rem;
-    }
-    
-    .action-item.completed .action-title {
-      text-decoration: line-through;
-    }
-    
-    .action-meta {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-    }
+    .action-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .action-item.completed .action-title { text-decoration: line-through; }
+    .action-meta { font-size: 0.75rem; color: var(--text-secondary); }
     
     .action-priority {
-      font-size: 0.7rem;
-      padding: 0.2rem 0.5rem;
+      font-size: 0.65rem;
+      padding: 0.2rem 0.4rem;
       border-radius: 4px;
       text-transform: uppercase;
       font-weight: 600;
     }
     
-    .action-priority.high {
-      background: rgba(255, 68, 102, 0.2);
-      color: var(--error);
-    }
+    .action-priority.high { background: rgba(255, 68, 102, 0.2); color: var(--error); }
+    .action-priority.medium { background: rgba(255, 170, 0, 0.2); color: var(--warning); }
+    .action-priority.low { background: rgba(0, 212, 255, 0.2); color: var(--accent); }
     
-    .action-priority.medium {
-      background: rgba(255, 170, 0, 0.2);
-      color: var(--warning);
-    }
-    
-    .action-priority.low {
-      background: rgba(0, 212, 255, 0.2);
-      color: var(--accent);
-    }
-    
-    /* Add Action Button */
     .add-btn {
       background: var(--accent);
       color: var(--bg-primary);
       border: none;
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
     }
     
-    .add-btn:hover {
-      filter: brightness(1.1);
-    }
+    .add-btn:hover { filter: brightness(1.1); }
     
-    /* Goals Section */
+    /* Goals */
     .goal-card {
       background: var(--bg-hover);
       border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
+      padding: 0.85rem;
+      margin-bottom: 0.6rem;
     }
     
     .goal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
     
-    .goal-title {
-      font-weight: 500;
-    }
-    
-    .goal-target {
-      font-size: 0.85rem;
-      color: var(--accent);
-    }
+    .goal-title { font-size: 0.85rem; font-weight: 500; }
+    .goal-target { font-size: 0.8rem; color: var(--accent); }
     
     .goal-progress-bar {
-      height: 8px;
+      height: 6px;
       background: var(--bg-card);
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
     }
     
     .goal-progress-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--accent), var(--success));
-      border-radius: 4px;
-      transition: width 0.5s ease;
+      border-radius: 3px;
     }
+    
+    /* Top Products */
+    .product-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .product-row:last-child { border-bottom: none; }
+    
+    .product-name { font-size: 0.85rem; }
+    .product-stats { font-size: 0.8rem; color: var(--text-secondary); }
+    .product-stats span { color: var(--shopify); font-weight: 600; }
     
     /* Modal */
     .modal-overlay {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.8);
       z-index: 1000;
       align-items: center;
       justify-content: center;
     }
     
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
     
     .modal {
       background: var(--bg-card);
@@ -429,10 +477,7 @@
       margin-bottom: 1rem;
     }
     
-    .modal-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
+    .modal-title { font-size: 1.1rem; font-weight: 600; }
     
     .modal-close {
       background: none;
@@ -442,20 +487,10 @@
       cursor: pointer;
     }
     
-    .form-group {
-      margin-bottom: 1rem;
-    }
+    .form-group { margin-bottom: 1rem; }
+    .form-label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
     
-    .form-label {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-    }
-    
-    .form-input,
-    .form-select,
-    .form-textarea {
+    .form-input, .form-select, .form-textarea {
       width: 100%;
       padding: 0.75rem;
       background: var(--bg-primary);
@@ -465,16 +500,8 @@
       font-size: 0.9rem;
     }
     
-    .form-textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-    
-    .form-actions {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: flex-end;
-    }
+    .form-textarea { min-height: 80px; resize: vertical; }
+    .form-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
     
     .btn-secondary {
       background: var(--bg-hover);
@@ -485,11 +512,10 @@
       cursor: pointer;
     }
     
-    /* Responsive */
     @media (max-width: 768px) {
       .main-content { padding: 1rem; }
       .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-      .header { padding: 1rem; }
+      .header { padding: 1rem; flex-wrap: wrap; gap: 1rem; }
     }
   </style>
 </head>
@@ -513,16 +539,30 @@
 
   <main class="main-content">
     <!-- KPI Cards -->
-    <div class="kpi-grid" id="kpi-grid">
-      <!-- Populated by JS -->
-    </div>
+    <div class="kpi-grid" id="kpi-grid"></div>
 
-    <!-- Two Column Layout -->
+    <!-- Attribution Comparison + Funnel -->
     <div class="two-col">
-      <!-- Weekly Performance -->
       <div class="card">
         <div class="section-header">
-          <h2 class="section-title">📊 Weekly Performance</h2>
+          <h2 class="section-title">📊 Meta vs Shopify (Today)</h2>
+        </div>
+        <div id="comparison-container"></div>
+      </div>
+      
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">🔄 Meta Funnel (Today)</h2>
+        </div>
+        <div id="funnel-container"></div>
+      </div>
+    </div>
+
+    <!-- Weekly + Products + Goals -->
+    <div class="three-col">
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">📈 Weekly Performance</h2>
         </div>
         <table class="tracker-table">
           <thead>
@@ -532,52 +572,39 @@
               <th>Revenue</th>
               <th>ROAS</th>
               <th>Orders</th>
-              <th>AOV</th>
             </tr>
           </thead>
-          <tbody id="weekly-table">
-            <!-- Populated by JS -->
-          </tbody>
+          <tbody id="weekly-table"></tbody>
         </table>
       </div>
 
-      <!-- Funnel Analysis -->
       <div class="card">
         <div class="section-header">
-          <h2 class="section-title">🔄 Funnel (Today)</h2>
+          <h2 class="section-title">🛒 Top Products</h2>
+          <span class="source-icon shopify" style="font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(150, 191, 72, 0.2); color: #96bf48;">SHOPIFY</span>
         </div>
-        <div id="funnel-container">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Action Items & Goals -->
-    <div class="two-col">
-      <!-- Action Items -->
-      <div class="card">
-        <div class="section-header">
-          <h2 class="section-title">⚡ Action Items</h2>
-          <button class="add-btn" onclick="openModal()">+ Add Task</button>
-        </div>
-        <ul class="action-list" id="action-list">
-          <!-- Populated by JS -->
-        </ul>
+        <div id="products-container"></div>
       </div>
 
-      <!-- Turnaround Goals -->
       <div class="card">
         <div class="section-header">
           <h2 class="section-title">🎯 Turnaround Goals</h2>
         </div>
-        <div id="goals-container">
-          <!-- Populated by JS -->
-        </div>
+        <div id="goals-container"></div>
       </div>
+    </div>
+
+    <!-- Action Items -->
+    <div class="card">
+      <div class="section-header">
+        <h2 class="section-title">⚡ Action Items</h2>
+        <button class="add-btn" onclick="openModal()">+ Add Task</button>
+      </div>
+      <ul class="action-list" id="action-list"></ul>
     </div>
   </main>
 
-  <!-- Add Task Modal -->
+  <!-- Modal -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal">
       <div class="modal-header">
@@ -621,25 +648,18 @@
   </div>
 
   <script>
-    // Data paths
     const DATA_PATH = './data/';
-    
-    // State
-    let metrics = {};
-    let weeklyData = [];
-    let funnelData = {};
-    let actions = [];
-    let goals = [];
+    let metrics = {}, weeklyData = [], funnelData = {}, actions = [], goals = [], shopify = {};
 
-    // Load all data
     async function loadData() {
       try {
-        const [metricsRes, weeklyRes, funnelRes, actionsRes, goalsRes] = await Promise.all([
+        const [metricsRes, weeklyRes, funnelRes, actionsRes, goalsRes, shopifyRes] = await Promise.all([
           fetch(DATA_PATH + 'metrics.json'),
           fetch(DATA_PATH + 'weekly.json'),
           fetch(DATA_PATH + 'funnel.json'),
           fetch(DATA_PATH + 'actions.json'),
-          fetch(DATA_PATH + 'goals.json')
+          fetch(DATA_PATH + 'goals.json'),
+          fetch(DATA_PATH + 'shopify.json')
         ]);
         
         metrics = await metricsRes.json();
@@ -647,6 +667,7 @@
         funnelData = await funnelRes.json();
         actions = await actionsRes.json();
         goals = await goalsRes.json();
+        shopify = await shopifyRes.json();
         
         renderAll();
       } catch (err) {
@@ -654,114 +675,125 @@
       }
     }
 
-    // Render all sections
     function renderAll() {
       renderKPIs();
-      renderWeeklyTable();
+      renderComparison();
       renderFunnel();
-      renderActions();
+      renderWeeklyTable();
+      renderProducts();
       renderGoals();
+      renderActions();
       updateStatus();
     }
 
-    // Render KPI cards
     function renderKPIs() {
       const grid = document.getElementById('kpi-grid');
       const kpis = [
-        { label: 'Today Spend', value: '$' + metrics.todaySpend?.toFixed(0), change: null, highlight: false },
-        { label: 'Today Revenue', value: '$' + metrics.todayRevenue?.toFixed(0), change: null, highlight: false },
-        { label: 'Today ROAS', value: metrics.todayRoas?.toFixed(2), change: null, danger: metrics.todayRoas < 1.53 },
-        { label: 'Purchases', value: metrics.todayPurchases, change: null, highlight: false },
-        { label: 'AOV', value: '$' + metrics.aov?.toFixed(0), change: metrics.aovChange, highlight: false },
-        { label: '7-Day ROAS', value: metrics.weekRoas?.toFixed(2), change: null, danger: metrics.weekRoas < 1.53 },
+        { label: 'Meta Spend', value: '$' + (metrics.todaySpend || 0).toFixed(0), source: 'meta' },
+        { label: 'Meta Revenue', value: '$' + (metrics.todayRevenue || 0).toFixed(0), source: 'meta' },
+        { label: 'Meta ROAS', value: (metrics.todayRoas || 0).toFixed(2), source: 'meta', danger: metrics.todayRoas < 1.53 },
+        { label: 'Shopify Revenue', value: '$' + (shopify.today?.revenue || 0).toFixed(0), source: 'shopify' },
+        { label: 'Shopify Orders', value: shopify.today?.orders || 0, source: 'shopify' },
+        { label: 'AOV', value: '$' + (shopify.today?.aov || metrics.aov || 0).toFixed(0), source: 'shopify' },
+        { label: '7-Day ROAS', value: (metrics.weekRoas || 0).toFixed(2), source: 'meta', danger: metrics.weekRoas < 1.53 },
+        { label: 'MTD Revenue', value: '$' + (shopify.month?.revenue || 0).toLocaleString(), source: 'shopify' },
       ];
       
       grid.innerHTML = kpis.map(kpi => `
-        <div class="kpi-card ${kpi.highlight ? 'highlight' : ''} ${kpi.danger ? 'danger' : ''}">
-          <div class="kpi-label">${kpi.label}</div>
-          <div class="kpi-value">${kpi.value || '--'}</div>
-          ${kpi.change !== null ? `
-            <div class="kpi-change ${kpi.change >= 0 ? 'positive' : 'negative'}">
-              ${kpi.change >= 0 ? '↑' : '↓'} ${Math.abs(kpi.change)}%
-            </div>
-          ` : ''}
+        <div class="kpi-card ${kpi.danger ? 'danger' : ''}">
+          <div class="kpi-label">
+            <span class="source-icon ${kpi.source}">${kpi.source === 'shopify' ? 'S' : 'M'}</span>
+            ${kpi.label}
+          </div>
+          <div class="kpi-value">${kpi.value}</div>
         </div>
       `).join('');
     }
 
-    // Render weekly table
+    function renderComparison() {
+      const container = document.getElementById('comparison-container');
+      const comparisons = [
+        { label: 'Revenue', meta: metrics.todayRevenue || 0, shopify: shopify.today?.revenue || 0 },
+        { label: 'Orders', meta: metrics.todayPurchases || 0, shopify: shopify.today?.orders || 0 },
+        { label: 'AOV', meta: metrics.aov || 0, shopify: shopify.today?.aov || 0 },
+      ];
+      
+      container.innerHTML = comparisons.map(c => `
+        <div class="compare-row">
+          <span class="compare-label">${c.label}</span>
+          <div class="compare-values">
+            <div class="compare-value meta">
+              <div class="source">Meta</div>
+              <div class="num">${typeof c.meta === 'number' && c.label !== 'Orders' ? '$' + c.meta.toFixed(0) : c.meta}</div>
+            </div>
+            <div class="compare-value shopify">
+              <div class="source">Shopify</div>
+              <div class="num">${typeof c.shopify === 'number' && c.label !== 'Orders' ? '$' + c.shopify.toFixed(0) : c.shopify}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderFunnel() {
+      const container = document.getElementById('funnel-container');
+      const steps = [
+        { icon: '👁️', label: 'Impressions', value: funnelData.impressions || 0 },
+        { icon: '👆', label: 'Clicks', value: funnelData.clicks || 0, rate: funnelData.impressions ? ((funnelData.clicks / funnelData.impressions) * 100).toFixed(1) + '% CTR' : null },
+        { icon: '📄', label: 'LPV', value: funnelData.lpv || 0 },
+        { icon: '🛒', label: 'ATC', value: funnelData.atc || 0, rate: funnelData.lpv ? ((funnelData.atc / funnelData.lpv) * 100).toFixed(1) + '%' : null },
+        { icon: '💳', label: 'Checkout', value: funnelData.checkout || 0 },
+        { icon: '✅', label: 'Purchase', value: funnelData.purchases || 0, rate: funnelData.checkout ? ((funnelData.purchases / funnelData.checkout) * 100).toFixed(0) + '%' : null },
+      ];
+      
+      container.innerHTML = steps.map(s => `
+        <div class="funnel-step">
+          <div class="funnel-icon">${s.icon}</div>
+          <div class="funnel-info">
+            <div class="funnel-label">${s.label}</div>
+            <div class="funnel-value">${s.value.toLocaleString()}</div>
+          </div>
+          ${s.rate ? `<div class="funnel-rate">${s.rate}</div>` : ''}
+        </div>
+      `).join('');
+    }
+
     function renderWeeklyTable() {
       const tbody = document.getElementById('weekly-table');
-      tbody.innerHTML = weeklyData.map(week => {
-        const roasClass = week.roas >= 1.53 ? 'good' : week.roas >= 1.0 ? 'neutral' : 'bad';
+      tbody.innerHTML = weeklyData.map(w => {
+        const roasClass = w.roas >= 1.53 ? 'good' : w.roas >= 1.0 ? 'neutral' : 'bad';
         return `
           <tr>
-            <td>${week.week}</td>
-            <td>$${week.spend.toLocaleString()}</td>
-            <td>$${week.revenue.toLocaleString()}</td>
-            <td class="roas-cell ${roasClass}">${week.roas.toFixed(2)}</td>
-            <td>${week.orders}</td>
-            <td>$${week.aov.toFixed(0)}</td>
+            <td>${w.week}</td>
+            <td>$${w.spend.toLocaleString()}</td>
+            <td>$${w.revenue.toLocaleString()}</td>
+            <td class="roas-cell ${roasClass}">${w.roas.toFixed(2)}</td>
+            <td>${w.orders}</td>
           </tr>
         `;
       }).join('');
     }
 
-    // Render funnel
-    function renderFunnel() {
-      const container = document.getElementById('funnel-container');
-      const steps = [
-        { icon: '👁️', label: 'Impressions', value: funnelData.impressions, rate: null },
-        { icon: '👆', label: 'Link Clicks', value: funnelData.clicks, rate: ((funnelData.clicks / funnelData.impressions) * 100).toFixed(1) + '% CTR' },
-        { icon: '📄', label: 'Landing Page Views', value: funnelData.lpv, rate: ((funnelData.lpv / funnelData.clicks) * 100).toFixed(0) + '% load rate' },
-        { icon: '🛒', label: 'Add to Carts', value: funnelData.atc, rate: ((funnelData.atc / funnelData.lpv) * 100).toFixed(1) + '% ATC rate' },
-        { icon: '💳', label: 'Checkouts', value: funnelData.checkout, rate: ((funnelData.checkout / funnelData.atc) * 100).toFixed(0) + '% checkout rate' },
-        { icon: '✅', label: 'Purchases', value: funnelData.purchases, rate: ((funnelData.purchases / funnelData.checkout) * 100).toFixed(0) + '% purchase rate' },
-      ];
-      
-      container.innerHTML = steps.map(step => `
-        <div class="funnel-step">
-          <div class="funnel-icon">${step.icon}</div>
-          <div class="funnel-info">
-            <div class="funnel-label">${step.label}</div>
-            <div class="funnel-value">${step.value?.toLocaleString() || 0}</div>
-          </div>
-          ${step.rate ? `<div class="funnel-rate">${step.rate}</div>` : ''}
+    function renderProducts() {
+      const container = document.getElementById('products-container');
+      const products = shopify.topProducts || [];
+      container.innerHTML = products.map(p => `
+        <div class="product-row">
+          <span class="product-name">${p.name}</span>
+          <span class="product-stats"><span>${p.sold}</span> sold · <span>$${p.revenue.toLocaleString()}</span></span>
         </div>
       `).join('');
     }
 
-    // Render actions
-    function renderActions() {
-      const list = document.getElementById('action-list');
-      const sortedActions = [...actions].sort((a, b) => {
-        if (a.completed !== b.completed) return a.completed ? 1 : -1;
-        const priorityOrder = { high: 0, medium: 1, low: 2 };
-        return priorityOrder[a.priority] - priorityOrder[b.priority];
-      });
-      
-      list.innerHTML = sortedActions.map((action, idx) => `
-        <li class="action-item ${action.completed ? 'completed' : ''}" onclick="toggleAction(${idx})">
-          <div class="action-checkbox">${action.completed ? '✓' : ''}</div>
-          <div class="action-content">
-            <div class="action-title">${action.title}</div>
-            <div class="action-meta">${action.category} · ${action.date || 'No date'}</div>
-          </div>
-          <span class="action-priority ${action.priority}">${action.priority}</span>
-        </li>
-      `).join('');
-    }
-
-    // Render goals
     function renderGoals() {
       const container = document.getElementById('goals-container');
-      container.innerHTML = goals.map(goal => {
-        const progress = Math.min((goal.current / goal.target) * 100, 100);
+      container.innerHTML = goals.map(g => {
+        const progress = Math.min((g.current / g.target) * 100, 100);
         return `
           <div class="goal-card">
             <div class="goal-header">
-              <span class="goal-title">${goal.title}</span>
-              <span class="goal-target">${goal.current} / ${goal.target}</span>
+              <span class="goal-title">${g.title}</span>
+              <span class="goal-target">${g.current} / ${g.target}</span>
             </div>
             <div class="goal-progress-bar">
               <div class="goal-progress-fill" style="width: ${progress}%"></div>
@@ -771,67 +803,68 @@
       }).join('');
     }
 
-    // Update status
-    function updateStatus() {
-      const statusDot = document.querySelector('.status-dot');
-      const statusText = document.getElementById('campaign-status');
-      const lastUpdated = document.getElementById('last-updated');
+    function renderActions() {
+      const list = document.getElementById('action-list');
+      const sorted = [...actions].sort((a, b) => {
+        if (a.completed !== b.completed) return a.completed ? 1 : -1;
+        const order = { high: 0, medium: 1, low: 2 };
+        return order[a.priority] - order[b.priority];
+      });
       
-      if (metrics.weekRoas >= 1.53) {
-        statusDot.className = 'status-dot healthy';
-        statusText.textContent = 'Profitable';
-      } else if (metrics.weekRoas >= 1.0) {
-        statusDot.className = 'status-dot warning';
-        statusText.textContent = 'Breaking Even';
-      } else {
-        statusDot.className = 'status-dot';
-        statusText.textContent = 'Campaign Critical';
-      }
-      
-      lastUpdated.textContent = 'Updated: ' + new Date().toLocaleTimeString();
+      list.innerHTML = sorted.map((a, i) => `
+        <li class="action-item ${a.completed ? 'completed' : ''}" onclick="toggleAction(${i})">
+          <div class="action-checkbox">${a.completed ? '✓' : ''}</div>
+          <div class="action-content">
+            <div class="action-title">${a.title}</div>
+            <div class="action-meta">${a.category} · ${a.date || ''}</div>
+          </div>
+          <span class="action-priority ${a.priority}">${a.priority}</span>
+        </li>
+      `).join('');
     }
 
-    // Toggle action complete
+    function updateStatus() {
+      const dot = document.querySelector('.status-dot');
+      const text = document.getElementById('campaign-status');
+      const updated = document.getElementById('last-updated');
+      
+      if (metrics.weekRoas >= 1.53) {
+        dot.className = 'status-dot healthy';
+        text.textContent = 'Profitable';
+      } else if (metrics.weekRoas >= 1.0) {
+        dot.className = 'status-dot warning';
+        text.textContent = 'Breaking Even';
+      } else {
+        dot.className = 'status-dot';
+        text.textContent = 'Campaign Critical';
+      }
+      
+      updated.textContent = 'Updated: ' + new Date().toLocaleTimeString();
+    }
+
     function toggleAction(idx) {
       actions[idx].completed = !actions[idx].completed;
       renderActions();
-      saveActions();
+      console.log('Actions:', JSON.stringify(actions, null, 2));
     }
 
-    // Save actions (would need backend)
-    async function saveActions() {
-      // For now, log to console - Billy will update the JSON
-      console.log('Actions updated:', JSON.stringify(actions, null, 2));
-    }
+    function openModal() { document.getElementById('modal-overlay').classList.add('active'); }
+    function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); document.getElementById('action-form').reset(); }
 
-    // Modal functions
-    function openModal() {
-      document.getElementById('modal-overlay').classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('modal-overlay').classList.remove('active');
-      document.getElementById('action-form').reset();
-    }
-
-    // Form submit
     document.getElementById('action-form').addEventListener('submit', function(e) {
       e.preventDefault();
-      const newAction = {
+      actions.unshift({
         title: document.getElementById('task-title').value,
         description: document.getElementById('task-desc').value,
         priority: document.getElementById('task-priority').value,
         category: document.getElementById('task-category').value,
         date: new Date().toLocaleDateString(),
         completed: false
-      };
-      actions.unshift(newAction);
+      });
       renderActions();
-      saveActions();
       closeModal();
     });
 
-    // Init
     loadData();
   </script>
 </body>
